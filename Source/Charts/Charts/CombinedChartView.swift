@@ -176,11 +176,21 @@ open class CombinedChartView: BarLineChartViewBase, CombinedChartDataProvider
         set { (renderer as! CombinedChartRenderer).drawBarShadowEnabled = newValue }
     }
     
+    /// if set to true, a rounded rectangle with the corners is drawn on each bar
+    @objc open var drawRoundedBarEnabled: Bool
+        {
+        get { return (renderer as! CombinedChartRenderer).drawRoundedBarEnabled }
+        set { (renderer as! CombinedChartRenderer).drawRoundedBarEnabled = newValue }
+    }
+    
     /// `true` if drawing values above bars is enabled, `false` ifnot
     open var isDrawValueAboveBarEnabled: Bool { return (renderer as! CombinedChartRenderer).drawValueAboveBarEnabled }
     
     /// `true` if drawing shadows (maxvalue) for each bar is enabled, `false` ifnot
     open var isDrawBarShadowEnabled: Bool { return (renderer as! CombinedChartRenderer).drawBarShadowEnabled }
+    
+    /// - returns: `true` if drawing rounded bars is enabled, `false` ifnot
+    open var isDrawRoundedBarEnabled: Bool { return drawRoundedBarEnabled }
     
     /// the order in which the provided data objects should be drawn.
     /// The earlier you place them in the provided array, the further they will be in the background. 
