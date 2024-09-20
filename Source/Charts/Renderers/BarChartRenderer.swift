@@ -328,14 +328,14 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 _barShadowRectBuffer.size.width = CGFloat(barWidth)
                 
                 trans.rectValueToPixel(&_barShadowRectBuffer)
-                
+                                
                 guard viewPortHandler.isInBoundsLeft(_barShadowRectBuffer.origin.x + _barShadowRectBuffer.size.width) else { continue }
                 
                 guard viewPortHandler.isInBoundsRight(_barShadowRectBuffer.origin.x) else { break }
                 
                 _barShadowRectBuffer.origin.y = viewPortHandler.contentTop
                 _barShadowRectBuffer.size.height = viewPortHandler.contentHeight
-                
+                                
                 context.setFillColor(dataSet.barShadowColor.cgColor)
                 if dataProvider.isDrawRoundedBarEnabled {
                     let bezierPath = UIBezierPath(roundedRect: _barShadowRectBuffer, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: _barShadowRectBuffer.width / 2.0, height: _barShadowRectBuffer.width / 2.0))
@@ -357,7 +357,13 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 guard viewPortHandler.isInBoundsRight(barRect.origin.x) else { break }
 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
-                context.fill(barRect)
+                if dataProvider.isDrawRoundedBarEnabled {
+                    let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: barRect.width / 2.0, height: barRect.width / 2.0))
+                    context.addPath(bezierPath.cgPath)
+                    context.fillPath()
+                } else {
+                    context.fill(barRect)
+                }
             }
         }
         
@@ -384,7 +390,7 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 // Set the color for the currently drawn value. If the index is out of bounds, reuse colors.
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
-            
+                        
             if dataProvider.isDrawRoundedBarEnabled {
                 let bezierPath = UIBezierPath(roundedRect: barRect, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: barRect.width / 2.0, height: barRect.width / 2.0))
                 context.addPath(bezierPath.cgPath)
